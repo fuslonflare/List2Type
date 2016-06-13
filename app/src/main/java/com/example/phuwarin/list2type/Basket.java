@@ -42,8 +42,6 @@ public class Basket extends BaseAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.basket_tw);
         textView.setText(categoryText[position]);
 
-        View layout = convertView.findViewById(R.id.layout_detail);
-        layout.set
         return convertView;
     }
 }
