@@ -14,7 +14,4 @@
         android:id="@+id/basket_tw"
         android:text="@string/mode" />
 
-    <include layout="@layout/activity_detail"
-        android:id="@+id/layout_detail"/>
-
 </LinearLayout>

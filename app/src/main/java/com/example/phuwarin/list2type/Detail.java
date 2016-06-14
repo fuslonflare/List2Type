@@ -44,8 +44,8 @@ public class Detail extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.activity_detail, parent, false);
         }
 
-        TextView textView = (TextView) convertView.findViewById(R.id.textView);
-        textView.setText(textList[position]);
+//        TextView textView = (TextView) convertView.findViewById(R.id.textView);
+//        textView.setText(textList[position]);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
         Picasso.with(myContext).load(imageList[position]);
