@@ -4,27 +4,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Phuwarin on 6/13/2016.
  */
 public class CustomAdapter extends BaseAdapter {
 
-    public static final int TYPE_TOPIC = 0;
-    public static final int TYPE_DETAIL = 1;
+    private List<ListViewItem> items;
+    private Context context;
 
-    private ListViewItem[] object;
-
-    public CustomAdapter(Context contexts, ListViewItem[] object) {
-        this.object = object;
+    public CustomAdapter(Context contexts, List<ListViewItem> object) {
+        this.context = contexts;
+        this.items = new ArrayList<>(object);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return object[position].getType();
+        return getItem(position).getType();
     }
 
     @Override
@@ -34,12 +38,12 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return object.length;
+        return items.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return object[position];
+    public ListViewItem getItem(int position) {
+        return items.get(position);
     }
 
     @Override
@@ -49,28 +53,65 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        ListViewItem listViewItem = object[position];
+        ListViewItem listViewItem = (ListViewItem) getItem(position);
         int listViewItemType = getItemViewType(position);
-
-//        if (convertView == null) {
-//            switch (listViewItemType) {
-//                case TYPE_TOPIC:
-//                    LayoutInflater.from(getContext()).inflate(R.layout.activity_basket, null);
-//                    break;
-//                case TYPE_DETAIL:
-//                    LayoutInflater.from(getContext()).inflate(R.layout.activity_detail, null);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//        if (listViewItemType == 0) {
-//            TextView textView = (TextView) convertView.findViewById(R.id.basket_tw);
-//            textView.setText();
-//        }
+        switch (listViewItemType) {
+            case ListViewItem.TYPE_TOPIC:
+                convertView = inflateTopic(convertView, parent, listViewItem);
+                break;
+            case ListViewItem.TYPE_DESCRIPTION:
+                convertView = inflateDescrip(convertView, parent, listViewItem);
+                break;
+            default:
+                break;
+        }
         return convertView;
     }
 
+    private View inflateTopic(View convertView, ViewGroup parent, ListViewItem item) {
+        topicHolder topicHolder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.activity_basket, parent, false);
+            topicHolder = new topicHolder(convertView);
+            convertView.setTag(topicHolder);
+        } else {
+            topicHolder = (CustomAdapter.topicHolder) convertView.getTag();
+        }
 
+        topicHolder.textView.setText(item.getData());
+        return convertView;
+    }
+
+    private View inflateDescrip(View convertView, ViewGroup parent, ListViewItem item) {
+        descripHolder descripHolder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.activity_detail, parent, false);
+            descripHolder = new descripHolder(convertView);
+            convertView.setTag(descripHolder);
+        } else {
+            descripHolder = (CustomAdapter.descripHolder) convertView.getTag();
+        }
+
+        descripHolder.textView.setText(item.getData());
+        Picasso.with(context).load(item.getUrl()).into(descripHolder.imageView);
+        return convertView;
+    }
+
+    static class topicHolder {
+        private TextView textView;
+
+        public topicHolder(View convertView) {
+            this.textView = (TextView) convertView.findViewById(R.id.basket_tw);
+        }
+    }
+
+    static class descripHolder {
+        private TextView textView;
+        private ImageView imageView;
+
+        public descripHolder(View convertView) {
+            this.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            this.textView = (TextView) convertView.findViewById(R.id.textView);
+        }
+    }
 }

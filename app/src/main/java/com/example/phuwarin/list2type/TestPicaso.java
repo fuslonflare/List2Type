@@ -12,8 +12,8 @@ import com.squareup.picasso.Picasso;
  * Created by Phuwarin on 6/13/2016.
  */
 public class TestPicaso extends AppCompatActivity {
-    String link = "https://goo.gl/L8qv59";
-    ImageView imageView = (ImageView) findViewById(R.id.imageView);
+    String link = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/1200px-Grosser_Panda.JPG";
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class TestPicaso extends AppCompatActivity {
 
         Log.d("MyTAG", "onCreate");
 
+        imageView = (ImageView) findViewById(R.id.imageView);
         Picasso.with(getApplicationContext()).load(link).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
