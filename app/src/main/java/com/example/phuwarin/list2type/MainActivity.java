@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private CharSequence[] type;
+    private List<ListViewItem> item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-        List<ListViewItem> item = new ArrayList<>();
+        item = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
             item.add(new ListViewItem(Storage.listTopic[i], ListViewItem.TYPE_TOPIC, ""));
             for (int j = 0; j < 3; ++j) {
@@ -68,10 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
     private int whereRU(int selectItem) throws ArrayIndexOutOfBoundsException {
         int index = -1;
-        for (int i = 0; i < type.length; ++i) {
-            if (type[i].equals(type[selectItem])) {
-                index = i;
-                break;
+        for (int i = 0; i < item.size(); ++i) {
+            if (item.get(i).getType() == 0) {
+                if (item.get(i).getData().equals(type[selectItem])) {
+                    index = i;
+                    return index;
+                }
             }
         }
         return index;
