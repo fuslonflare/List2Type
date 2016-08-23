@@ -53,7 +53,7 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListViewItem listViewItem = (ListViewItem) getItem(position);
+        ListViewItem listViewItem = getItem(position);
         int listViewItemType = getItemViewType(position);
         switch (listViewItemType) {
             case ListViewItem.TYPE_TOPIC:
